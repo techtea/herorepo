@@ -16,7 +16,6 @@ express()
   .get('/', (req, res) => res.render('pages/index'))
   .get('/cool', (req, res) => res.send(cool()))
   .get('/times', (req, res) => res.send(showTimes()))
-  .get('/times2', (req, res) => res.send(showTimes()))
   .get('/db', async (req, res) => {
     try {
       const client = await pool.connect()
@@ -35,7 +34,7 @@ express()
     let result = ''
     const times = process.env.TIMES || 5
     for (i = 0; i < times; i++) {
-      result += i + ' '
+      result += i + ' hi'
     }
     return result;
   }
