@@ -16,11 +16,11 @@ express()
   .get('/', (req, res) => res.render('pages/index'))
   .get('/travel', (req, res) => {
     try {
-      var client2 = await pool.connect()
-      var result2 = await client2.query('SELECT * FROM test_table');
-      var results2 = { 'results': (result2) ? result2.rows : null};
-      res.render('pages/travel', results2 );
-        client2.release();
+      const client = await pool.connect()
+      const result = await client.query('SELECT * FROM test_table');
+      const results = { 'results': (result) ? result.rows : null};
+      res.render('pages/travel', results );
+        client.release();
     } 
     catch (err) {
         console.error(err);
