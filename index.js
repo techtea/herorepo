@@ -14,6 +14,7 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
+  .get('/travel', (req, res) => res.send(showTravel()))
   .get('/db', async (req, res) => {
     try {
       const client = await pool.connect()
@@ -28,5 +29,14 @@ express()
     }
 })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
+  showTravel = () => {
+    let result = ''
+    const times = process.env.TIMES || 5
+    for (i = 0; i < times; i++) {
+      result += i + ' '
+    }
+    return result;
+  }
 
     
