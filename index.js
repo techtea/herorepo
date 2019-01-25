@@ -32,10 +32,10 @@ express()
 
   showTravel = () => {
     try {
-      const client2 = await pool.connect()
-      const result2 = await client2.query('SELECT * FROM test_table');
-      const results2 = { 'results': (result2) ? result2.rows : null};
-      res.render('pages/db', results2 );
+      var client2 = await pool.connect()
+      var result2 = await client2.query('SELECT * FROM test_table');
+      var results2 = { 'results': (result2) ? result2.rows : null};
+      res.render('pages/travel', results2 );
         client2.release();
     } 
     catch (err) {
