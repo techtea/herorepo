@@ -9,15 +9,6 @@ const pool = new Pool({
   ssl: true
 });
 
-const getCountries = (request, response) => {
-  pool.query('SELECT * FROM Countries', (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
-}
-
 express()
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
@@ -29,7 +20,7 @@ express()
   .get('/db', async (req, res) => {
     try {
       const client = await pool.connect()
-      const result = await client.query('SELECT * FROM Countries');
+      const result = await client.query('SELECT * FROM test_table');
       const results = { 'results': (result) ? result.rows : null};
       res.render('pages/db', results );
       client.release();
@@ -47,10 +38,4 @@ express()
       result += i + ' '
     }
     return result;
-  }
-
-  
-  showTravel = () => {
-    let result = 'Travel!'
-    return result+getCountries();
   }
