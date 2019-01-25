@@ -14,7 +14,19 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-  .get('/travel', (req, res) => res.send(showTravel()))
+  .get('/travel', (req, res) => {
+    try {
+      var client2 = await pool.connect()
+      var result2 = await client2.query('SELECT * FROM test_table');
+      var results2 = { 'results': (result2) ? result2.rows : null};
+      res.render('pages/travel', results2 );
+        client2.release();
+    } 
+    catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+    }
+  })
   .get('/db', async (req, res) => {
     try {
       const client = await pool.connect()
@@ -29,19 +41,5 @@ express()
     }
 })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-
-  showTravel = () => {
-    try {
-      var client2 = await pool.connect()
-      var result2 = await client2.query('SELECT * FROM test_table');
-      var results2 = { 'results': (result2) ? result2.rows : null};
-      res.render('pages/travel', results2 );
-        client2.release();
-    } 
-    catch (err) {
-        console.error(err);
-        res.send("Error " + err);
-    }
-  }
 
     
